@@ -1,0 +1,32 @@
+{
+  "name": "super-pancake",
+  "version": "1.0.0",
+  "description": "This is a node.js console based team profile generator",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G3TSN1P3D/super-pancake.git"
+  },
+  "keywords": [
+    "team",
+    "profile",
+    "generator",
+    "node",
+    "javascript"
+  ],
+  "author": "G3TSN1P3D",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/G3TSN1P3D/super-pancake/issues"
+  },
+  "homepage": "https://github.com/G3TSN1P3D/super-pancake#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
+}
