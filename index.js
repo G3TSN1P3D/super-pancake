@@ -1,5 +1,6 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
+const { off } = require("process");
 
 const engineer = [
   {
@@ -19,7 +20,7 @@ const engineer = [
   },
   {
     type: "input",
-    name: "office",
+    name: "github",
     message: "Please enter the engineer's github username: ",
   },
 ];
@@ -46,9 +47,8 @@ const intern = [
   },
 ];
 
-function generateHTML() {
-  `
-    <!DOCTYPE html>
+const generateHTML = ({ name, id, email, office }) =>
+  `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,13 +57,27 @@ function generateHTML() {
     <title>Document</title>
 </head>
 <body>
-    
+    <ul>
+      <li>${name}</li>
+      <li>${id}</li>
+      <li>${email}</li>
+      <li>${office}</li>
+    </ul>
 </body>
-</html>
-`;
-}
+</html>`;
 
 init();
+
+
+function printMan({ name, id, email, office }) {
+  const teamManager = {
+    name: name,
+    id: id,
+    email: email,
+    office: office,
+  };
+  console.log(teamManager);
+}
 
 function init() {
   inquirer
@@ -81,7 +95,7 @@ function init() {
       {
         type: "input",
         name: "email",
-        message: "Please enter the mamager's email: ",
+        message: "Please enter the manager's email: ",
       },
       {
         type: "input",
@@ -96,18 +110,22 @@ function init() {
       },
     ])
     .then((data) => {
-      console.log(data);
-      let choice = data.job
-      console.log(choice);
-      if (choice == 'Engineer') {
+      const htmlFileGeneration = generateHTML(data);
+      fs.writeFile("index.html", htmlFileGeneration, (err) =>
+        err
+          ? console.log(err)
+          : console.log("\nSuccessfully created index.html!")
+      );
+      printMan(data);
+      const choice = data.job;
+      if (choice == "Engineer") {
         inquirer.prompt(engineer).then((answers) => {
-          
+          console.log(answers);
         });
       } else {
         inquirer.prompt(intern).then((answers) => {
-          
-          });
+          console.log(answers);
+        });
       }
-      
     });
 }
