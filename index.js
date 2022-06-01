@@ -3,6 +3,9 @@ const inquirer = require("inquirer");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const generateManagerCard = require("./lib/cards/generateManagerCard");
+const generateEngineerCard = require("./lib/cards/generateEngineerCard");
+const generateInternCard = require("./lib/cards/generateInternCard");
 inquirer.registerPrompt("loop", require("inquirer-loop")(inquirer))
 
 init();
@@ -87,5 +90,10 @@ function init() {
           internArray.push(intern);
         }
       }
+
+      const managerCard = generateManagerCard(manager);
+      const engineerCard = generateEngineerCard(engineerArray);
+      const internCard = generateInternCard(internArray);
+
     });
 }
