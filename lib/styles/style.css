@@ -1,0 +1,26 @@
+header {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    background-color: cornflowerblue;
+}
+main {
+    padding: 20px;
+}
+div .my-team {
+    display: flex;
+    padding: 20px;
+    margin: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-around;
+}
+.cards {
+    margin: 15px;
+    padding: 25px;
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+.card-body {
+    background-color: whitesmoke;
+}

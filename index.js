@@ -6,7 +6,8 @@ const Intern = require("./lib/Intern");
 const generateManagerCard = require("./lib/cards/generateManagerCard");
 const generateEngineerCard = require("./lib/cards/generateEngineerCard");
 const generateInternCard = require("./lib/cards/generateInternCard");
-inquirer.registerPrompt("loop", require("inquirer-loop")(inquirer))
+const generateHTML = require("./lib/generateHTML");
+inquirer.registerPrompt("loop", require("inquirer-loop")(inquirer));
 
 init();
 
@@ -82,11 +83,21 @@ function init() {
 
       for (let i = 0; i < employees.length; i++) {
         const employee = employees[i];
-        if (employee.type === 'Engineer') {
-          const engineer = new Engineer(employee.name, employee.id, employee.email, employee.github);
+        if (employee.type === "Engineer") {
+          const engineer = new Engineer(
+            employee.name,
+            employee.id,
+            employee.email,
+            employee.github
+          );
           engineerArray.push(engineer);
         } else {
-          const intern = new Intern(employee.name, employee.id, employee.email, employee.school);
+          const intern = new Intern(
+            employee.name,
+            employee.id,
+            employee.email,
+            employee.school
+          );
           internArray.push(intern);
         }
       }
@@ -94,6 +105,10 @@ function init() {
       const managerCard = generateManagerCard(manager);
       const engineerCard = generateEngineerCard(engineerArray);
       const internCard = generateInternCard(internArray);
+      const htmlFile = generateHTML(managerCard, engineerCard, internCard);
 
+      fs.writeFile("index.html", htmlFile, (err) =>
+        err ? console.error(err) : console.log("HTML file was generated successfully!")
+      );
     });
 }
