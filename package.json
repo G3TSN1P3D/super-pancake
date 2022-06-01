@@ -28,6 +28,7 @@
   "homepage": "https://github.com/G3TSN1P3D/super-pancake#readme",
   "dependencies": {
     "inquirer": "^8.2.4",
+    "inquirer-loop": "^0.3.0",
     "jest": "^28.1.0"
   }
 }

@@ -1,83 +1,11 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
-const { off } = require("process");
-
-const engineer = [
-  {
-    type: `input`,
-    name: `name`,
-    message: `Please enter the engineer's name: `,
-  },
-  {
-    type: "input",
-    name: "id",
-    message: "Please enter the engineer's ID: ",
-  },
-  {
-    type: "input",
-    name: "email",
-    message: "Please enter the engineer's email: ",
-  },
-  {
-    type: "input",
-    name: "github",
-    message: "Please enter the engineer's github username: ",
-  },
-];
-const intern = [
-  {
-    type: `input`,
-    name: `name`,
-    message: `Please enter the intern's name: `,
-  },
-  {
-    type: "input",
-    name: "id",
-    message: "Please enter the intern's ID: ",
-  },
-  {
-    type: "input",
-    name: "email",
-    message: "Please enter the intern's email: ",
-  },
-  {
-    type: "input",
-    name: "office",
-    message: "Please enter the intern's school name: ",
-  },
-];
-
-const generateHTML = ({ name, id, email, office }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <ul>
-      <li>${name}</li>
-      <li>${id}</li>
-      <li>${email}</li>
-      <li>${office}</li>
-    </ul>
-</body>
-</html>`;
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+inquirer.registerPrompt("loop", require("inquirer-loop")(inquirer))
 
 init();
-
-
-function printMan({ name, id, email, office }) {
-  const teamManager = {
-    name: name,
-    id: id,
-    email: email,
-    office: office,
-  };
-  console.log(teamManager);
-}
 
 function init() {
   inquirer
@@ -103,29 +31,61 @@ function init() {
         message: "Please enter the manager's office number: ",
       },
       {
-        type: `checkbox`,
-        name: `job`,
-        message: `Please select the job title: `,
-        choices: [`Engineer`, `Intern`],
+        type: "loop",
+        name: "employees",
+        message: "add another employee?",
+        questions: [
+          {
+            type: "list",
+            message: "What type of employee are you adding?",
+            name: "type",
+            choices: ["Engineer", "Intern"],
+          },
+          {
+            type: "input",
+            message: "What is the employees name?",
+            name: "name",
+          },
+          {
+            type: "input",
+            message: "What is the employees ID number?",
+            name: "id",
+          },
+          {
+            type: "input",
+            message: "What is the employees email address?",
+            name: "email",
+          },
+          {
+            type: "input",
+            message: "What is the employees github username?",
+            name: "github",
+            when: (employee) => employee.type === "Engineer",
+          },
+          {
+            type: "input",
+            message: "What is the name of the employees school?",
+            name: "school",
+            when: (employee) => employee.type === "Intern",
+          },
+        ],
       },
     ])
     .then((data) => {
-      const htmlFileGeneration = generateHTML(data);
-      fs.writeFile("index.html", htmlFileGeneration, (err) =>
-        err
-          ? console.log(err)
-          : console.log("\nSuccessfully created index.html!")
-      );
-      printMan(data);
-      const choice = data.job;
-      if (choice == "Engineer") {
-        inquirer.prompt(engineer).then((answers) => {
-          console.log(answers);
-        });
-      } else {
-        inquirer.prompt(intern).then((answers) => {
-          console.log(answers);
-        });
+      const manager = new Manager(data.name, data.id, data.email, data.office);
+      const employees = data.employees;
+      const engineerArray = [];
+      const internArray = [];
+
+      for (let i = 0; i < employees.length; i++) {
+        const employee = employees[i];
+        if (employee.type === 'Engineer') {
+          const engineer = new Engineer(employee.name, employee.id, employee.email, employee.github);
+          engineerArray.push(engineer);
+        } else {
+          const intern = new Intern(employee.name, employee.id, employee.email, employee.school);
+          internArray.push(intern);
+        }
       }
     });
 }
