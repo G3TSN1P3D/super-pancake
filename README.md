@@ -3,12 +3,13 @@
     ## Description
     
     This is a team profile generator developed using node.js and javascript as its main languages
+    Link to my walkthrough video: https://drive.google.com/file/d/1nLMS1xVuhMAVv4ZjAAg3goJcigTEz_AB/view
 
     - My motivation to start this project was to be able to understand a lot more about node, js and other node module featurs.
     - I built this project because it can make it a lot simpler for someone to create their team's profile when you just enter their info and the rest is done by the computer.
     - This solves the issue of having to create a full web app from scratch just to display your teams's profiles.
     - I learnt a lot more about inquirer, testing and inquirer-loop.
-        
+    
     ## Table of Content 
 
     - [Installation](#installation)
